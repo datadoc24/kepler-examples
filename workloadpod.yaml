@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: bubblesort
+spec:
+  containers:
+  - name: sort
+    image: abesharphpe/kepler-test-workload:v2
+    resources:
+      limits:
+        cpu: "2"
+      requests:
+        cpu: "0.5"
+    args:
+    - "50000"
+  restartPolicy: OnFailure

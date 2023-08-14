@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: esphome-power-exporter
+  namespace: monitoring
+spec:
+  selector:
+    matchLabels:
+      app: esphome
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: esphome
+    spec:
+      containers:
+      - name: esphome-power-exporter
+        image: abesharphpe/esphome-powersensor-exporter:v2
+        ports:
+        - containerPort: 7979
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: esphome
+  namespace: monitoring
+spec:
+  selector:
+    app: esphome
+  ports:
+    - protocol: TCP
+      port: 7979
+      targetPort: 7979

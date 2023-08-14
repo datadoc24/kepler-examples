@@ -1,0 +1,17 @@
+- job_name: json_exporter
+  static_configs:
+    - targets:
+      - esphome.monitoring.svc:7979
+- job_name: json
+  metrics_path: /probe
+  params:
+    module: [default]
+  static_configs:
+    - targets: ["http://192.168.0.21/sensor/powerplug15", "http://192.168.0.28/sensor/powerplug13"]
+  relabel_configs:
+    - source_labels: [__address__]
+      target_label: __param_target
+    - source_labels: [__param_target]
+      target_label: instance
+    - target_label: __address__
+      replacement: esphome.monitoring.svc:7979
